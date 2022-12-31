@@ -1,0 +1,22 @@
+[
+    {
+        "name": "test",
+        "gloss": "testgloss",
+        "interpretation": "testinterpretation"
+    },
+    {
+        "name": "test2",
+        "gloss": "testgloss2",
+        "interpretation": "testinterpretation2"
+    },
+    {
+        "name": "test3",
+        "gloss": "testgloss3",
+        "interpretation": "testinterpretation3"
+    },
+    {
+        "name": "test4",
+        "gloss": "testgloss4",
+        "interpretation": "testinterpretation4"
+    }
+]
