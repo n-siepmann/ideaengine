@@ -76,6 +76,19 @@ public class IdeaService {
         return this.user;
     }
 
+    ServiceUser getUserFromDB(String name, String email) { //TODO: retire once OAuth2 implemented
+        Optional<ServiceUser> found = this.serviceUserRepository.findByEmail(email);
+        if (found.isPresent()) {
+            this.user = found.get();
+            checkDate(LocalDate.now());
+        } else {
+            ServiceUser newUser = new ServiceUser(name, email);
+            this.serviceUserRepository.save(newUser);
+            this.user = newUser;
+        }
+        return this.user;
+    }
+
     void saveIdea(String idea) {
 //        if (this.user.getDayIdeas().size() > 5) {
 //            throw new IdeaException("Can only accept 5 ideas per day");
