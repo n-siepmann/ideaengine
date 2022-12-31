@@ -12,11 +12,15 @@ import com.nicksiepmann.ideaengine.domain.Card;
 import com.nicksiepmann.ideaengine.domain.Idea;
 import com.nicksiepmann.ideaengine.domain.Deck;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -161,7 +165,7 @@ public class IdeaService {
         }
     }
 
-    void sendDailyEmail(String email, String name, double average, int maxStreak) { 
+    void sendDailyEmail(String email, String name, double average, int maxStreak) {
         String subject = "It's time to get creative";
         String textPart = "How many ideas can you come up with today? Your current average is " + String.format("%.1f", average) + " ideas per day, and your longest streak so far is " + maxStreak + ".";
         String htmlPart = "<h3>Visit <a href='https://ideaengine-373115.nw.r.appspot.com/today'>Idea Engine</a> to keep your streak going!</h3>";
@@ -178,8 +182,8 @@ public class IdeaService {
     void sendWeeklyEmail(String email, String name, int pastIdeasCount) {
         String subject = "Come check out your recent ideas";
         String textPart = "Everything starts from a good idea.";
-        if (pastIdeasCount > 0 ){
-            textPart = textPart + " You've come up with " + pastIdeasCount + "ideas in the last two weeks.";
+        if (pastIdeasCount > 1) {
+            textPart = textPart + " You've come up with " + pastIdeasCount + " ideas in the last two weeks.";
         }
         String htmlPart = "<h3>Visit <a href='https://ideaengine-373115.nw.r.appspot.com/ideas'>Idea Engine</a> to review your recent ideas.</h3>";
         String customId = "IdeaEngineWeekly";
@@ -192,4 +196,25 @@ public class IdeaService {
         }
     }
 
+    void runEmailer() {
+        List<ServiceUser> users = StreamSupport.stream(this.serviceUserRepository.findAll().spliterator(), false).collect(Collectors.toList());
+
+        users.stream().forEach(s -> {
+            if (s.isReceiveDailyPrompt()) {
+                this.sendDailyEmail(s.getEmail(), s.getName(), s.getAverageDailyIdeas(), s.getMaxStreak());
+            }
+            if (s.isReceiveWeeklyPrompt() && LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY) {
+                this.sendWeeklyEmail(s.getEmail(), s.getName(), s.getPastIdeas().size());
+            }
+        });
+    }
+
+    boolean deleteUser(OAuth2User principal) throws IdeaException {
+        Optional<ServiceUser> found = this.serviceUserRepository.findByEmail(principal.getAttribute("email"));
+        if (!found.isPresent()) {
+            throw new IdeaException("User not found!");
+        }
+        this.serviceUserRepository.delete(found.get());
+        return true;
+    }
 }
