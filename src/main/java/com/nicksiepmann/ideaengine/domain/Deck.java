@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.nicksiepmann.ideaengine;
+package com.nicksiepmann.ideaengine.domain;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Nick.Siepmann
  */
-class Deck {
+public class Deck {
 
     private ArrayList<Card> cards;
     private Random random;
@@ -38,15 +38,15 @@ class Deck {
         }
     }
 
-    Card getCard() {
+    public Card getCard() {
         return this.cards.get(this.random.nextInt(this.cards.size()));
     }
 
-    int getCardIndex() {
+    public int getCardIndex() {
         return this.random.nextInt(this.cards.size());
     }
     
-    Card getCardByIndex(int index){
+    public Card getCardByIndex(int index){
         return this.cards.get(index);
     }
 

@@ -1,5 +1,6 @@
-package com.nicksiepmann.ideaengine;
+package com.nicksiepmann.ideaengine.domain;
 
+import com.nicksiepmann.ideaengine.domain.Idea;
 import com.google.cloud.spring.data.datastore.core.mapping.Entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import org.springframework.data.annotation.Id;
  */
 @Entity(name = "users")
 @Data
-class ServiceUser {
+public class ServiceUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

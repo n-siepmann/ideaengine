@@ -4,6 +4,7 @@
  */
 package com.nicksiepmann.ideaengine;
 
+import com.nicksiepmann.ideaengine.domain.ServiceUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

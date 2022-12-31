@@ -4,6 +4,11 @@
  */
 package com.nicksiepmann.ideaengine;
 
+import com.nicksiepmann.ideaengine.domain.ServiceUser;
+import com.nicksiepmann.ideaengine.domain.ServiceUserRepository;
+import com.nicksiepmann.ideaengine.domain.Card;
+import com.nicksiepmann.ideaengine.domain.Idea;
+import com.nicksiepmann.ideaengine.domain.Deck;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.nicksiepmann.ideaengine;
+package com.nicksiepmann.ideaengine.domain;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

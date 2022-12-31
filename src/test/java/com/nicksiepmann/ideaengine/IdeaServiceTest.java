@@ -4,6 +4,9 @@
  */
 package com.nicksiepmann.ideaengine;
 
+import com.nicksiepmann.ideaengine.domain.ServiceUserRepository;
+import com.nicksiepmann.ideaengine.domain.ServiceUser;
+import com.nicksiepmann.ideaengine.domain.Card;
 import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterEach;
