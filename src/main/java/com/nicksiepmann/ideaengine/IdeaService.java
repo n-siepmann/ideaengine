@@ -4,6 +4,7 @@
  */
 package com.nicksiepmann.ideaengine;
 
+import com.nicksiepmann.ideaengine.domain.Stats;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.nicksiepmann.ideaengine.domain.ServiceUser;
@@ -72,6 +73,7 @@ public class IdeaService {
             ServiceUser newUser = new ServiceUser((principal.getAttribute("name")), principal.getAttribute("email"));
             this.serviceUserRepository.save(newUser);
             this.user = newUser;
+            user.setTodayCards(this.newCards());
         }
         return this.user;
     }
@@ -229,5 +231,17 @@ public class IdeaService {
         }
         this.serviceUserRepository.delete(found.get());
         return true;
+    }
+
+    Stats getStats() {
+        Stats stats = new Stats(this.user.getDaysUsed(), this.user.getCurrentStreak(), this.user.getMaxStreak(), this.user.getAverageDailyIdeas());
+        return stats;
+    }
+
+    Card[] getTodayCards() {
+        Card[] cards = new Card[2];
+        cards[0] = this.deck.getCardByIndex(this.user.getTodayCards()[0]);
+        cards[1] = this.deck.getCardByIndex(this.user.getTodayCards()[1]);
+        return cards;
     }
 }
