@@ -4,6 +4,8 @@
  */
 package com.nicksiepmann.ideaengine;
 
+import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.nicksiepmann.ideaengine.domain.ServiceUser;
 import com.nicksiepmann.ideaengine.domain.ServiceUserRepository;
 import com.nicksiepmann.ideaengine.domain.Card;
@@ -30,11 +32,13 @@ public class IdeaService {
     private final Logger logger;
     private ServiceUserRepository serviceUserRepository;
     private ServiceUser user;
+    private Emailer emailer;
 
     @Autowired
     public IdeaService(ServiceUserRepository serviceUserRepository) {
         this.logger = Logger.getLogger(IdeaService.class.getName());
         this.deck = null;
+        this.emailer = new Emailer();
         try {
             this.deck = new Deck();
         } catch (IOException ex) {
@@ -137,13 +141,13 @@ public class IdeaService {
     }
 
     private void updateStats(int todayIdeasCount, boolean streakBroken) {
-        
+
         if (this.user.getAverageDailyIdeas() == 0) {
             this.user.setAverageDailyIdeas(todayIdeasCount);
         } else {
-            this.user.setAverageDailyIdeas(((this.user.getAverageDailyIdeas() * (double)this.user.getDaysUsed()) + todayIdeasCount) / (this.user.getDaysUsed() + 1));
+            this.user.setAverageDailyIdeas(((this.user.getAverageDailyIdeas() * (double) this.user.getDaysUsed()) + todayIdeasCount) / (this.user.getDaysUsed() + 1));
         }
-        
+
         this.user.setDaysUsed(this.user.getDaysUsed() + 1);
 
         if (streakBroken) {
@@ -154,6 +158,37 @@ public class IdeaService {
 
         if (this.user.getCurrentStreak() > this.user.getMaxStreak()) {
             this.user.setMaxStreak(this.user.getCurrentStreak());
+        }
+    }
+
+    void sendDailyEmail(String email, String name, double average, int maxStreak) { 
+        String subject = "It's time to get creative";
+        String textPart = "How many ideas can you come up with today? Your current average is " + String.format("%.1f", average) + " ideas per day, and your longest streak so far is " + maxStreak + ".";
+        String htmlPart = "<h3>Visit <a href='https://ideaengine-373115.nw.r.appspot.com/today'>Idea Engine</a> to keep your streak going!</h3>";
+        String customId = "IdeaEngineDaily";
+        try {
+            this.emailer.SendPrompt(email, name, subject, textPart, htmlPart, customId);
+        } catch (MailjetException ex) {
+            this.logger.log(Level.SEVERE, null, ex);
+        } catch (MailjetSocketTimeoutException ex) {
+            this.logger.log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void sendWeeklyEmail(String email, String name, int pastIdeasCount) {
+        String subject = "Come check out your recent ideas";
+        String textPart = "Everything starts from a good idea.";
+        if (pastIdeasCount > 0 ){
+            textPart = textPart + " You've come up with " + pastIdeasCount + "ideas in the last two weeks.";
+        }
+        String htmlPart = "<h3>Visit <a href='https://ideaengine-373115.nw.r.appspot.com/ideas'>Idea Engine</a> to review your recent ideas.</h3>";
+        String customId = "IdeaEngineWeekly";
+        try {
+            this.emailer.SendPrompt(email, name, subject, textPart, htmlPart, customId);
+        } catch (MailjetException ex) {
+            this.logger.log(Level.SEVERE, null, ex);
+        } catch (MailjetSocketTimeoutException ex) {
+            this.logger.log(Level.SEVERE, null, ex);
         }
     }
 

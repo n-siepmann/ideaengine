@@ -85,6 +85,11 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.mailjet</groupId>
+            <artifactId>mailjet-client</artifactId>
+            <version>4.2.0</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
