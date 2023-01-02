@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Idea Engine</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+<link href="bootstrap.min.css" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+</head>
+<header>
+    <div th:replace="fragments.html :: headerLogoOnly"/>
+</header>
+<main>
+<section class="center-float">
+    <div class="card mb-3 loginform">
+        <h3 class="card-header">Log In</h3>
+        <form method="post" th:action="@{/oauth2/authorization/google}">
+            <button type="submit" class="btn btn-primary">Login with Google</button>
+        </form>
+    </div>
+
+</section>
+</main>
+<footer th:replace="fragments.html :: footer"/>
+</body>
+</html>

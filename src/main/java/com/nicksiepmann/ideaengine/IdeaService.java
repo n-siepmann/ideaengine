@@ -12,6 +12,7 @@ import com.nicksiepmann.ideaengine.domain.ServiceUserRepository;
 import com.nicksiepmann.ideaengine.domain.Card;
 import com.nicksiepmann.ideaengine.domain.Idea;
 import com.nicksiepmann.ideaengine.domain.Deck;
+import com.nicksiepmann.ideaengine.domain.Settings;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -71,9 +72,9 @@ public class IdeaService {
             checkDate(LocalDate.now());
         } else {
             ServiceUser newUser = new ServiceUser((principal.getAttribute("name")), principal.getAttribute("email"));
-            this.serviceUserRepository.save(newUser);
             this.user = newUser;
             user.setTodayCards(this.newCards());
+            this.serviceUserRepository.save(newUser);
         }
         return this.user;
     }
@@ -85,17 +86,15 @@ public class IdeaService {
             checkDate(LocalDate.now());
         } else {
             ServiceUser newUser = new ServiceUser(name, email);
-            this.serviceUserRepository.save(newUser);
             this.user = newUser;
+            user.setTodayCards(this.newCards());
+            this.serviceUserRepository.save(newUser);
         }
         return this.user;
     }
 
-    void saveIdea(String idea) {
-//        if (this.user.getDayIdeas().size() > 5) {
-//            throw new IdeaException("Can only accept 5 ideas per day");
-//        }
-        this.user.getDayIdeas().add(new Idea(idea));
+    void saveIdea(String text) {
+        this.user.getDayIdeas().add(new Idea(text));
         this.serviceUserRepository.save(this.user);
     }
 
@@ -110,9 +109,11 @@ public class IdeaService {
     ArrayList<Idea> getKeepers() {
         return this.user.getKeepers();
     }
+    ArrayList<Idea> getCompleted() {
+        return this.user.getCompleted();
+    }
 
     void checkDate(LocalDate now) {
-//        LocalDate now = LocalDate.now();
         //if new day, move day ideas to past ideas and 
         if (user.getUpdated().isBefore(now)) {
             this.updateStats(this.user.getDayIdeas().size(), user.getUpdated().isBefore(now.minusDays(1)));
@@ -126,15 +127,18 @@ public class IdeaService {
             user.getPastIdeas().removeIf(s -> s.getCreated().isBefore(now.minusDays(14)));
         }
 
-        //if keeper completed more than 7 days ago, delete
-        if (!user.getKeepers().isEmpty()) {
-            user.getKeepers().removeIf(s -> s.getCompleted() != null && s.getCompleted().isBefore(now.minusDays(7)));
+        //if idea completed more than 7 days ago, delete
+        if (!user.getCompleted().isEmpty()) {
+            user.getCompleted().removeIf(s -> s.getCompleted() != null && s.getCompleted().isBefore(now.minusDays(7)));
         }
         this.serviceUserRepository.save(user);
     }
 
     void setIdeaCompleted(int index) {
         this.getKeepers().get(index).setCompleted(LocalDate.now());
+        
+        this.getCompleted().add(this.getKeepers().get(index));
+        this.getKeepers().remove(index);
         this.serviceUserRepository.save(user);
     }
 
@@ -161,22 +165,22 @@ public class IdeaService {
 
     private void updateStats(int todayIdeasCount, boolean streakBroken) {
 
-        if (this.user.getAverageDailyIdeas() == 0) {
-            this.user.setAverageDailyIdeas(todayIdeasCount);
+        if (this.user.getStats().getAverageDailyIdeas() == 0) {
+            this.user.getStats().setAverageDailyIdeas(todayIdeasCount);
         } else {
-            this.user.setAverageDailyIdeas(((this.user.getAverageDailyIdeas() * (double) this.user.getDaysUsed()) + todayIdeasCount) / (this.user.getDaysUsed() + 1));
+            this.user.getStats().setAverageDailyIdeas(((this.user.getStats().getAverageDailyIdeas() * (double) this.user.getStats().getDaysUsed()) + todayIdeasCount) / (this.user.getStats().getDaysUsed() + 1));
         }
 
-        this.user.setDaysUsed(this.user.getDaysUsed() + 1);
+        this.user.getStats().setDaysUsed(this.user.getStats().getDaysUsed() + 1);
 
         if (streakBroken) {
-            this.user.setCurrentStreak(1);
+            this.user.getStats().setCurrentStreak(1);
         } else {
-            this.user.setCurrentStreak(this.user.getCurrentStreak() + 1);
+            this.user.getStats().setCurrentStreak(this.user.getStats().getCurrentStreak() + 1);
         }
 
-        if (this.user.getCurrentStreak() > this.user.getMaxStreak()) {
-            this.user.setMaxStreak(this.user.getCurrentStreak());
+        if (this.user.getStats().getCurrentStreak() > this.user.getStats().getMaxStreak()) {
+            this.user.getStats().setMaxStreak(this.user.getStats().getCurrentStreak());
         }
     }
 
@@ -216,7 +220,7 @@ public class IdeaService {
 
         users.stream().forEach(s -> {
             if (s.isReceiveDailyPrompt()) {
-                this.sendDailyEmail(s.getEmail(), s.getName(), s.getAverageDailyIdeas(), s.getMaxStreak());
+                this.sendDailyEmail(s.getEmail(), s.getName(), s.getStats().getAverageDailyIdeas(), s.getStats().getMaxStreak());
             }
             if (s.isReceiveWeeklyPrompt() && LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY) {
                 this.sendWeeklyEmail(s.getEmail(), s.getName(), s.getPastIdeas().size());
@@ -234,7 +238,7 @@ public class IdeaService {
     }
 
     Stats getStats() {
-        Stats stats = new Stats(this.user.getDaysUsed(), this.user.getCurrentStreak(), this.user.getMaxStreak(), this.user.getAverageDailyIdeas());
+        Stats stats = new Stats(this.user.getStats().getDaysUsed(), this.user.getStats().getCurrentStreak(), this.user.getStats().getMaxStreak(), this.user.getStats().getAverageDailyIdeas());
         return stats;
     }
 
@@ -244,4 +248,23 @@ public class IdeaService {
         cards[1] = this.deck.getCardByIndex(this.user.getTodayCards()[1]);
         return cards;
     }
+
+    void updateSettings(Settings settings) {
+        this.getUser().setReceiveDailyPrompt(settings.isReceiveDailyPrompt());
+        this.getUser().setReceiveWeeklyPrompt(settings.isReceiveWeeklyPrompt());
+        this.serviceUserRepository.save(user);
+    }
+
+    void initialiseTestData() {
+        this.getDayIdeas().clear();
+        for (int i = 1; i < 5; i++) {
+            this.saveIdea("yesterday " + i);
+        }
+        this.checkDate(LocalDate.now().plusDays(1));
+        
+        for (int i = 1; i < 5; i++) {
+            this.saveIdea("today " + i);
+        }
+    }
+    
 }

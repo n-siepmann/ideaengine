@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Idea Engine</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+<link href="bootstrap.min.css" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+</head>
+<header>
+    <div th:replace="fragments.html :: header"/>
+</header>
+<main>
+    <h1>Your stats</h1>
+    <div><span th:text="${stats.daysUsed}"></span>: Days used</div>
+    <div><span th:text="${stats.currentStreak}"></span>: Current streak</div>
+    <div><span th:text="${stats.maxStreak}"></span>: Longest streak</div>
+    <div><span th:text="${#numbers.formatDecimal(stats.averageDailyIdeas, 0, 1)}></span>: Average daily number ideas</div>
+</main>
+<footer th:replace="fragments.html :: footer"/>
+</body>
+</html>

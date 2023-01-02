@@ -70,6 +70,13 @@ public class IdeaServiceTest {
     }
 
     @Test
+    void canGetDifferentCardIndices() {
+        int[] cards = new int[2];
+        cards = this.underTest.newCards();
+        assertTrue(cards[0] != cards[1]);
+    }
+
+    @Test
     void canGetServiceUser() {
         given(principal.getAttribute("name")).willReturn("User Name");
         given(principal.getAttribute("email")).willReturn("email@gmail.com");
@@ -90,6 +97,7 @@ public class IdeaServiceTest {
         this.underTest.saveIdea(ideatext2);
         assertEquals(ideatext, this.underTest.getDayIdeas().get(0).getText());
         assertEquals(LocalDate.now().toString(), this.underTest.getDayIdeas().get(0).getCreated().toString());
+        assertEquals(2, this.underTest.getDayIdeas().size());
 
         this.underTest.checkDate(LocalDate.now().plusDays(1));
         assertEquals(0, this.underTest.getDayIdeas().size());
@@ -100,8 +108,10 @@ public class IdeaServiceTest {
         assertEquals(0, this.underTest.getPastIdeas().size());
 
         this.underTest.setIdeaCompleted(0);
+        assertEquals(1, this.underTest.getCompleted().size());
         this.underTest.checkDate(LocalDate.now().plusDays(18));
-        assertEquals(0, this.underTest.getKeepers().size());
+        assertEquals(0, this.underTest.getCompleted().size());
+
     }
 
     @Test
@@ -113,27 +123,27 @@ public class IdeaServiceTest {
         String ideatext = "current idea";
         this.underTest.saveIdea(ideatext);
         this.underTest.checkDate(LocalDate.now().plusDays(1));
-        assertEquals(1, this.underTest.getUser().getCurrentStreak());
-        assertEquals(1, this.underTest.getUser().getMaxStreak());
-        assertEquals(1, this.underTest.getUser().getAverageDailyIdeas());
-        assertEquals(1, this.underTest.getUser().getDaysUsed());
+        assertEquals(1, this.underTest.getUser().getStats().getCurrentStreak());
+        assertEquals(1, this.underTest.getUser().getStats().getMaxStreak());
+        assertEquals(1, this.underTest.getUser().getStats().getAverageDailyIdeas());
+        assertEquals(1, this.underTest.getUser().getStats().getDaysUsed());
 
         this.underTest.saveIdea(ideatext + "2");
         this.underTest.saveIdea(ideatext + "3");
         this.underTest.checkDate(LocalDate.now().plusDays(2));
-        assertEquals(2, this.underTest.getUser().getCurrentStreak());
-        assertEquals(2, this.underTest.getUser().getMaxStreak());
-        assertEquals(2, this.underTest.getUser().getDaysUsed());
-        assertEquals(1.5, this.underTest.getUser().getAverageDailyIdeas());
+        assertEquals(2, this.underTest.getUser().getStats().getCurrentStreak());
+        assertEquals(2, this.underTest.getUser().getStats().getMaxStreak());
+        assertEquals(2, this.underTest.getUser().getStats().getDaysUsed());
+        assertEquals(1.5, this.underTest.getUser().getStats().getAverageDailyIdeas());
 
         this.underTest.saveIdea(ideatext + "4");
         this.underTest.saveIdea(ideatext + "5");
         this.underTest.saveIdea(ideatext + "6");
         this.underTest.checkDate(LocalDate.now().plusDays(4));
-        assertEquals(1, this.underTest.getUser().getCurrentStreak());
-        assertEquals(2, this.underTest.getUser().getMaxStreak());
-        assertEquals(3, this.underTest.getUser().getDaysUsed());
-        assertEquals(2, this.underTest.getUser().getAverageDailyIdeas());
+        assertEquals(1, this.underTest.getUser().getStats().getCurrentStreak());
+        assertEquals(2, this.underTest.getUser().getStats().getMaxStreak());
+        assertEquals(3, this.underTest.getUser().getStats().getDaysUsed());
+        assertEquals(2, this.underTest.getUser().getStats().getAverageDailyIdeas());
 
         this.underTest.saveIdea(ideatext + "7");
         this.underTest.checkDate(LocalDate.now().plusDays(5));
@@ -141,11 +151,11 @@ public class IdeaServiceTest {
         this.underTest.checkDate(LocalDate.now().plusDays(6));
         this.underTest.saveIdea(ideatext + "9");
         this.underTest.checkDate(LocalDate.now().plusDays(7));
-        assertEquals(4, this.underTest.getUser().getCurrentStreak());
-        assertEquals(4, this.underTest.getUser().getMaxStreak());
+        assertEquals(4, this.underTest.getUser().getStats().getCurrentStreak());
+        assertEquals(4, this.underTest.getUser().getStats().getMaxStreak());
         this.underTest.saveIdea(ideatext + "10");
         this.underTest.checkDate(LocalDate.now().plusDays(9));
-        assertEquals(1, this.underTest.getUser().getCurrentStreak());
-        assertEquals(4, this.underTest.getUser().getMaxStreak());
+        assertEquals(1, this.underTest.getUser().getStats().getCurrentStreak());
+        assertEquals(4, this.underTest.getUser().getStats().getMaxStreak());
     }
 }

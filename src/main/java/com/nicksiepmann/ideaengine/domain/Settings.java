@@ -4,7 +4,6 @@
  */
 package com.nicksiepmann.ideaengine.domain;
 
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,19 +13,10 @@ import lombok.NoArgsConstructor;
  * @author Nick.Siepmann
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Idea {
+@NoArgsConstructor
+public class Settings {
 
-    private String text;
-    private boolean keep;
-    private LocalDate created;
-    private LocalDate completed;
-
-    public Idea(String text) {
-        this.text = text;
-        this.created = LocalDate.now();
-    }
-    
-
+    private boolean receiveDailyPrompt;
+    private boolean receiveWeeklyPrompt;
 }

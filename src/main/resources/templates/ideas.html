@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Idea Engine</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+<link href="bootstrap.min.css" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+</head>
+<header>
+    <div th:replace="fragments.html :: header"/>
+</header>
+<main>
+    <h1>Your ideas</h1>
+    <h2>Recent ideas</h2>
+    <table class="ideatable">
+        <tr th:each="idea : ${pastideas}">
+            <td>
+                <span th:text="${idea.text}"></span>
+            </td>
+            <td></td>
+            <td>
+                <form action="#" th:action="@{/keep}" th:method="post"> 
+                    <input type="hidden" name="keepindex" th:value="${ideaStat.index}">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <h2>Saved</h2>
+    <table class="ideatable">
+        <tr th:each="keeper : ${keepers}">
+            <td>
+                <span th:text="${keeper.text}"></span>
+            </td>
+            <td>
+                <form action="#" th:action="@{/complete}" th:method="post"> 
+                    <input type="hidden" name="completeindex" th:value="${keeperStat.index}">
+                        <button class="btn btn-success" type="submit">Complete</button>
+                </form>
+            </td>
+            <td>
+                <form action="#" th:action="@{/deleteidea}" th:method="post"> 
+                    <input type="hidden" name="deleteindex" th:value="${keeperStat.index}">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <h2>Completed</h2>
+    <table class="ideatable">
+        <tr th:each="compidea : ${completedideas}">
+            <td>
+                <span th:text="${compidea.text}"></span> (<span th:text="${compidea.completed}"></span>)
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</main>
+<footer th:replace="fragments.html :: footer"/>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.22 22.42">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: CenturyGothic-Bold, 'Century Gothic';
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: -.06em;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #231f20;
+      }
+
+      .cls-2 {
+        font-family: CenturyGothic, 'Century Gothic';
+        font-size: 15px;
+        letter-spacing: -.06em;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <text class="cls-1" transform="translate(0 16.59)"><tspan x="0" y="0">idea</tspan></text>
+    <text class="cls-2" transform="translate(36.88 12.88)"><tspan x="0" y="0">engine</tspan></text>
+  </g>
+</svg>
