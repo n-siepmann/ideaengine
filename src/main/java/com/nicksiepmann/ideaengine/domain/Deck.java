@@ -7,13 +7,10 @@ package com.nicksiepmann.ideaengine.domain;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -31,11 +28,8 @@ public class Deck {
         this.logger = Logger.getLogger(Deck.class.getName());
         Type arrayListOfCards = new TypeToken<ArrayList<Card>>() {
         }.getType();
-        try {
-            this.cards = new Gson().fromJson(Files.newBufferedReader(Paths.get(this.getClass().getClassLoader().getResource("static/tarot.json").toURI())), arrayListOfCards);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(Deck.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.cards = new Gson().fromJson(new InputStreamReader(this.getClass().getClassLoader().getResource("static/tarot.json").openStream()), arrayListOfCards);
+
     }
 
     public Card getCard() {
@@ -45,8 +39,8 @@ public class Deck {
     public int getCardIndex() {
         return this.random.nextInt(this.cards.size());
     }
-    
-    public Card getCardByIndex(int index){
+
+    public Card getCardByIndex(int index) {
         return this.cards.get(index);
     }
 

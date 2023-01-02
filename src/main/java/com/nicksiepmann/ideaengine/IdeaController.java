@@ -35,22 +35,22 @@ public class IdeaController {
         this.service = sessionIdeaService;
     }
 
+//    @GetMapping("/today")
+//    public String tempLogin(Model model) {
+//        this.service.getUserFromDB("Nick Siepmann", "**REMOVED**@gmail.com");
+////        this.service.initialiseTestData();
+//        model.addAttribute("cards", this.service.getTodayCards());
+//        model.addAttribute("todayideas", this.service.getDayIdeas());
+//        return "today";
+//    }
     @GetMapping("/today")
-    public String tempLogin(Model model) {
-        this.service.getUserFromDB("Nick Siepmann", "**REMOVED**@gmail.com");
-//        this.service.initialiseTestData();
+    public String getToday(Model model, @AuthenticationPrincipal OAuth2User principal) {
+        this.service.getUserFromDB(principal);
         model.addAttribute("cards", this.service.getTodayCards());
         model.addAttribute("todayideas", this.service.getDayIdeas());
         return "today";
     }
 
-//    @GetMapping("/today")
-//    public String getToday(Model model, @AuthenticationPrincipal OAuth2User principal) {
-//        this.service.getUserFromDB(principal);
-//        model.addAttribute("cards", this.service.getTodayCards());
-//        model.addAttribute("todayideas", this.service.getDayIdeas());
-//        return "today";
-//    }
     @GetMapping("/welcome")
     public String welcome() {
         return "welcome";
@@ -127,7 +127,7 @@ public class IdeaController {
         } catch (IdeaException ex) {
             Logger.getLogger(IdeaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "redirect:/welcome";
+        return "redirect:/goodbye";
     }
 
     @PostMapping("/deleteidea")

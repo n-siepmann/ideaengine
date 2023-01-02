@@ -13,18 +13,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&family=Ubuntu+Mono&display=swap" rel="stylesheet">
 <link href="bootstrap.min.css" rel="stylesheet">
 <link href="styles.css" rel="stylesheet">
+<meta http-equiv="refresh" content="1; URL=/" />
 </head>
 <header>
     <div th:replace="fragments.html :: headerLogoOnly"/>
 </header>
 <main>
 
-        <h1 class="card-header">Log In</h1>
-        <p>
-        <form method="post" th:action="@{/oauth2/authorization/google}">
-            <button type="submit" class="btn btn-primary">Login with Google</button>
-        </form>
-        </p>
+        <h1 class="card-header">Logout successful</h1>
 
 </main>
 <footer th:replace="fragments.html :: footer"/>

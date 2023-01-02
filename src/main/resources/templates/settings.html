@@ -4,36 +4,40 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Idea Engine</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&family=Ubuntu+Mono&display=swap" rel="stylesheet">
-<link href="bootstrap.min.css" rel="stylesheet">
-<link href="styles.css" rel="stylesheet">
-</head>
-<header>
-    <div th:replace="fragments.html :: header"/>
-</header>
-<main>
-    <h1>Settings</h1>
+    <head>
+        <title>Idea Engine</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+                            <link href="bootstrap.min.css" rel="stylesheet">
+                                <link href="styles.css" rel="stylesheet">
+                                    </head>
+                                    <header>
+                                        <div th:replace="fragments.html :: header"/>
+                                    </header>
+                                    <main>
+                                        <h1>Settings</h1>
 
-    <form action="#" th:action="@{/settings}" th:object="${settings}" th:method="post"> 
-        <p><input type="checkbox" id="receiveDailyPrompt" name="receiveDailyPrompt" th:field="${settings.receiveDailyPrompt}">
-        <label for="receiveDailyPrompt">Receive daily ideas prompt email</label></p>
-        <p><input type="checkbox" id="receiveWeeklyPrompt" name="receiveWeeklyPrompt" th:field="${settings.receiveWeeklyPrompt}">
-        <label for="receiveWeeklyPrompt">Receive weekly review prompt email</label></p>
-        <button class="btn btn-primary" type="submit">Update Settings</button>
-    </form>
-    <p class="text-success" th:if="${updated}">Settings updated!</p>
-    <hr>
-    <form action="#" th:action="@{/deleteaccount}" th:method="delete"> 
-            <button class="btn btn-danger" type="submit">Delete Account</button>
-    </form>
+                                        <form action="#" th:action="@{/settings}" th:object="${settings}" th:method="post"> 
+                                            <p><input type="checkbox" id="receiveDailyPrompt" name="receiveDailyPrompt" th:field="${settings.receiveDailyPrompt}">
+                                                    <label for="receiveDailyPrompt">Receive daily ideas prompt email</label></p>
+                                            <p><input type="checkbox" id="receiveWeeklyPrompt" name="receiveWeeklyPrompt" th:field="${settings.receiveWeeklyPrompt}">
+                                                    <label for="receiveWeeklyPrompt">Receive weekly review prompt email</label></p>
+                                            <button class="btn btn-primary" type="submit">Update Settings</button>
+                                        </form>
+                                        <p class="text-success" th:if="${updated}">Settings updated!</p>
+                                        <hr><form action="#" th:action="@{/deleteaccount}" th:method="delete"> 
+                                                <button class="btn btn-danger" type="submit">Delete Account</button>
+                                            </form>
+                                            <hr>
 
-</main>
-<footer th:replace="fragments.html :: footer"/>
-</body>
-</html>
+                                                <form th:action="@{/logout}" method="post">
+                                                    <button type="submit" class="btn btn-dark btn-lg">Log out</button>
+                                                </form>
+
+                                                </main>
+                                                <footer th:replace="fragments.html :: footer"/>
+                                                </body>
+                                                </html>
