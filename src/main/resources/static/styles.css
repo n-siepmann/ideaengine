@@ -43,6 +43,7 @@ h1{
     font-weight: bold;
     text-transform: lowercase;
     font-size: calc(2.6rem + 1.3vw) !important;
+    margin-bottom:30px;
 }
 
 h2{
@@ -56,8 +57,13 @@ main{
     margin-right: auto;
 }
 
+.ideatable{
+    margin-bottom:15px;
+}
+
 .ideatable td{
     padding:4px;
+    height: 46px;
 }
 .ideatable td:first-child{
     width: 100%;
@@ -66,62 +72,81 @@ main{
     margin-left:5px;
     min-width: 70px;
 }
+.ideatable tr:nth-child(even) {
+    background: var(--bs-gray-dark);
+
+}
 
 .idea-list{
     margin-bottom: 1.5em;
 }
 
 .card{
-    width: 49%;
+    width: 48%;
     display: inline-block;
 }
 
 .cardbox .card:first-child{
-    margin-right: 2%;
+    margin-right: 3%;
+}
+
+.card-body{
+    padding:0.7rem 0.7rem;
+}
+
+.card-header{
+    padding:0.4rem 0.6rem;
+}
+
+h4{
+    font-size:calc(1rem + .9vw);
 }
 
 
 .overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
-  visibility: hidden;
-  opacity: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
 }
 .overlay:target {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
+
 .popup {
-  margin: 70px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 5px;
-  width: 30%;
-  position: relative;
-  transition: all 5s ease-in-out;
-  z-index:10;
+    margin: 70px auto;
+    padding: 20px;
+    background: var(--bs-gray-700);
+    border-radius: 5px;
+    width: 40%;
+    position: relative;
+    transition: all 3s ease-in-out;
+}
+.popup h3 {
+    margin-top: 0;
 }
 .popup .close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  transition: all 200ms;
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #333;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
 }
 .popup .close:hover {
-  color: #06D85F;
+    color: var(--bs-blue);
 }
 .popup .content {
-  max-height: 30%;
-  overflow: auto;
+    max-height: 30%;
+    overflow: auto;
 }
 
 @media only screen and (max-width: 600px) {
