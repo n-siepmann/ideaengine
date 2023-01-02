@@ -38,7 +38,7 @@ public class IdeaController {
     @GetMapping("/today")
     public String tempLogin(Model model) {
         this.service.getUserFromDB("Nick Siepmann", "**REMOVED**@gmail.com");
-        this.service.initialiseTestData();
+//        this.service.initialiseTestData();
         model.addAttribute("cards", this.service.getTodayCards());
         model.addAttribute("todayideas", this.service.getDayIdeas());
         return "today";
@@ -78,7 +78,7 @@ public class IdeaController {
     @GetMapping("/stats")
     public String getStats(Model model) {
         model.addAttribute("stats", this.service.getStats());
-        return "ideas";
+        return "stats";
     }
 
     @GetMapping("/settings")
@@ -91,7 +91,6 @@ public class IdeaController {
     @GetMapping("/run")
     public void run() {
         this.service.runEmailer();
-
     }
 
     @PostMapping("/today")

@@ -55,13 +55,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <input type="text" class="form-control" name="idea" th:value="${idea}" placeholder="Input your idea" required>
         </p>
         <p>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <center><button type="submit" class="btn btn-primary">Submit</button></center>
         </p>
     </form>
     
     <div id="popup0" class="overlay">
         <div class="popup">
-            <h3>Meaning</h3>
+            <h3 th:text="${cards[0].name}"></h3>
             <a class="close" href="#">&times;</a>
             <div class="content"  th:text="${cards[0].interpretation}">
             </div>
@@ -70,7 +70,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 
     <div id="popup1" class="overlay">
         <div class="popup">
-            <h3>Meaning</h3>
+            <h3 th:text="${cards[1].name}"></h3>
             <a class="close" href="#">&times;</a>
             <div class="content"  th:text="${cards[1].interpretation}">
             </div>

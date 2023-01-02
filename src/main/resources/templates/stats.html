@@ -19,10 +19,32 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 </header>
 <main>
     <h1>Your stats</h1>
-    <div><span th:text="${stats.daysUsed}"></span>: Days used</div>
-    <div><span th:text="${stats.currentStreak}"></span>: Current streak</div>
-    <div><span th:text="${stats.maxStreak}"></span>: Longest streak</div>
-    <div><span th:text="${#numbers.formatDecimal(stats.averageDailyIdeas, 0, 1)}></span>: Average daily number ideas</div>
+    <table class="statstable">
+        <tr>
+            <td>
+               <h3 th:text="${stats.daysUsed}"></h3> 
+            </td>
+            <td><h4>Days used</h4></td>
+        </tr>
+        <tr>
+            <td>
+               <h3 th:text="${stats.currentStreak}"></h3> 
+            </td>
+            <td><h4>Current streak</h4></td>
+        </tr>
+        <tr>
+            <td>
+               <h3 th:text="${stats.maxStreak}"></h3> 
+            </td>
+            <td><h4>Longest streak</h4></td>
+        </tr>
+        <tr>
+            <td>
+               <h3 th:text="${#numbers.formatDecimal(stats.averageDailyIdeas, 0, 1)}"></h3> 
+            </td>
+            <td><h4>Average daily number ideas</h4></td>
+        </tr>
+
 </main>
 <footer th:replace="fragments.html :: footer"/>
 </body>

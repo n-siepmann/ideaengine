@@ -84,6 +84,7 @@ main{
 .card{
     width: 48%;
     display: inline-block;
+    vertical-align:top;
 }
 
 .cardbox .card:first-child{
@@ -99,9 +100,12 @@ main{
 }
 
 h4{
-    font-size:calc(1rem + .9vw);
+    font-size:calc(0.9rem + .9vw);
 }
 
+.statstable td{
+    padding-right:20px;
+}
 
 .overlay {
     position: fixed;
@@ -156,5 +160,8 @@ h4{
 
     .btn{
         padding: 0.3rem;
+    }
+    .card{
+        width: 100%;
     }
 }
