@@ -34,3 +34,5 @@ build/
 ### VS Code ###
 .vscode/
 /nbproject/
+/src/main/application.properties
+/src/main/application.yml
