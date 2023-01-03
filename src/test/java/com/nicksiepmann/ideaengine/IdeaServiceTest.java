@@ -39,13 +39,16 @@ public class IdeaServiceTest {
 
     @Autowired
     ServiceUserRepository serviceUserRepository;
+    
+    @Autowired
+    Emailer emailer;
 
     @Mock
     OAuth2User principal;
 
     @BeforeAll
     public void setUpClass() {
-        this.underTest = new IdeaService(serviceUserRepository);
+        this.underTest = new IdeaService(serviceUserRepository, emailer);
     }
 
     @AfterAll
@@ -158,4 +161,13 @@ public class IdeaServiceTest {
         assertEquals(1, this.underTest.getUser().getStats().getCurrentStreak());
         assertEquals(4, this.underTest.getUser().getStats().getMaxStreak());
     }
+    
+//    @Test
+//    void canEmail(){
+//        given(principal.getAttribute("name")).willReturn("User Name");
+//        given(principal.getAttribute("email")).willReturn("email@gmail.com");
+//        ServiceUser user = this.underTest.getUserFromDB(principal);
+//        
+//        this.underTest.runEmailer();
+//    }
 }

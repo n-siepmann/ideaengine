@@ -31,8 +31,8 @@ public class Config {
     @Bean
     @Autowired
     @SessionScope
-    public IdeaService sessionIdeaService(ServiceUserRepository serviceUserRepository) {
-        return new IdeaService(serviceUserRepository);
+    public IdeaService sessionIdeaService(ServiceUserRepository serviceUserRepository, Emailer emailer) {
+        return new IdeaService(serviceUserRepository, emailer);
     }
     
     @Bean
