@@ -39,7 +39,7 @@ public class IdeaServiceTest {
 
     @Autowired
     ServiceUserRepository serviceUserRepository;
-    
+
     @Autowired
     Emailer emailer;
 
@@ -95,9 +95,9 @@ public class IdeaServiceTest {
         ServiceUser user = this.underTest.getUserFromDB(principal);
 
         String ideatext = "current idea";
-        this.underTest.saveIdea(ideatext);
+        this.underTest.saveIdea(ideatext, LocalDate.now());
         String ideatext2 = "current idea2";
-        this.underTest.saveIdea(ideatext2);
+        this.underTest.saveIdea(ideatext2, LocalDate.now());
         assertEquals(ideatext, this.underTest.getDayIdeas().get(0).getText());
         assertEquals(LocalDate.now().toString(), this.underTest.getDayIdeas().get(0).getCreated().toString());
         assertEquals(2, this.underTest.getDayIdeas().size());
@@ -124,44 +124,46 @@ public class IdeaServiceTest {
         ServiceUser user = this.underTest.getUserFromDB(principal);
 
         String ideatext = "current idea";
-        this.underTest.saveIdea(ideatext);
+        this.underTest.saveIdea(ideatext, LocalDate.now());
         this.underTest.checkDate(LocalDate.now().plusDays(1));
         assertEquals(1, this.underTest.getUser().getStats().getCurrentStreak());
         assertEquals(1, this.underTest.getUser().getStats().getMaxStreak());
         assertEquals(1, this.underTest.getUser().getStats().getAverageDailyIdeas());
         assertEquals(1, this.underTest.getUser().getStats().getDaysUsed());
 
-        this.underTest.saveIdea(ideatext + "2");
-        this.underTest.saveIdea(ideatext + "3");
+        this.underTest.saveIdea(ideatext + "2", LocalDate.now().plusDays(1));
+        this.underTest.saveIdea(ideatext + "3", LocalDate.now().plusDays(1));
         this.underTest.checkDate(LocalDate.now().plusDays(2));
         assertEquals(2, this.underTest.getUser().getStats().getCurrentStreak());
         assertEquals(2, this.underTest.getUser().getStats().getMaxStreak());
         assertEquals(2, this.underTest.getUser().getStats().getDaysUsed());
         assertEquals(1.5, this.underTest.getUser().getStats().getAverageDailyIdeas());
 
-        this.underTest.saveIdea(ideatext + "4");
-        this.underTest.saveIdea(ideatext + "5");
-        this.underTest.saveIdea(ideatext + "6");
+        this.underTest.saveIdea(ideatext + "4", LocalDate.now().plusDays(2));
+        this.underTest.saveIdea(ideatext + "5", LocalDate.now().plusDays(2));
+        this.underTest.saveIdea(ideatext + "6", LocalDate.now().plusDays(2));
         this.underTest.checkDate(LocalDate.now().plusDays(4));
         assertEquals(1, this.underTest.getUser().getStats().getCurrentStreak());
         assertEquals(2, this.underTest.getUser().getStats().getMaxStreak());
         assertEquals(3, this.underTest.getUser().getStats().getDaysUsed());
         assertEquals(2, this.underTest.getUser().getStats().getAverageDailyIdeas());
 
-        this.underTest.saveIdea(ideatext + "7");
+        this.underTest.saveIdea(ideatext + "7", LocalDate.now().plusDays(4));
         this.underTest.checkDate(LocalDate.now().plusDays(5));
-        this.underTest.saveIdea(ideatext + "8");
+        this.underTest.saveIdea(ideatext + "8", LocalDate.now().plusDays(5));
         this.underTest.checkDate(LocalDate.now().plusDays(6));
-        this.underTest.saveIdea(ideatext + "9");
+        this.underTest.saveIdea(ideatext + "9", LocalDate.now().plusDays(6));
         this.underTest.checkDate(LocalDate.now().plusDays(7));
         assertEquals(4, this.underTest.getUser().getStats().getCurrentStreak());
         assertEquals(4, this.underTest.getUser().getStats().getMaxStreak());
-        this.underTest.saveIdea(ideatext + "10");
+        this.underTest.saveIdea(ideatext + "10", LocalDate.now().plusDays(7));
         this.underTest.checkDate(LocalDate.now().plusDays(9));
         assertEquals(1, this.underTest.getUser().getStats().getCurrentStreak());
         assertEquals(4, this.underTest.getUser().getStats().getMaxStreak());
+        assertEquals(7, this.underTest.getUser().getStats().getDaysUsed());
+
     }
-    
+
 //    @Test
 //    void canEmail(){
 //        given(principal.getAttribute("name")).willReturn("User Name");

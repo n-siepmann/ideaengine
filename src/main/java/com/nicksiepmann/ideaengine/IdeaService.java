@@ -93,8 +93,9 @@ public class IdeaService {
         return this.user;
     }
 
-    void saveIdea(String text) {
+    void saveIdea(String text, LocalDate now) {
         this.user.getDayIdeas().add(new Idea(text));
+        user.setUpdated(now);
         this.serviceUserRepository.save(this.user);
     }
 
@@ -119,7 +120,7 @@ public class IdeaService {
             this.updateStats(this.user.getDayIdeas().size(), user.getUpdated().isBefore(now.minusDays(1)));
             this.resetDayIdeas();
             user.setTodayCards(this.newCards());
-            user.setUpdated(now);
+//            user.setUpdated(now);
         }
 
         //if pastideas older than 14 days, delete
@@ -187,7 +188,7 @@ public class IdeaService {
     void sendDailyEmail(String email, String name, double average, int maxStreak) {
         String subject = "It's time to get creative";
         String textPart = "How many ideas can you come up with today? Your current average is " + String.format("%.1f", average) + " ideas per day, and your longest streak so far is " + maxStreak + ".";
-        String htmlPart = "<h3>Visit <a href='https://ideaengine-373522.nw.r.appspot.com/today'>Idea Engine</a> to keep your streak going!</h3>";
+        String htmlPart = "<h3>Visit <a href='https://ideaengine-373522.lm.r.appspot.com/today'>Idea Engine</a> to keep your streak going!</h3>";
         String customId = "IdeaEngineDaily";
         try {
             this.emailer.SendPrompt(email, name, subject, textPart, htmlPart, customId);
@@ -204,7 +205,7 @@ public class IdeaService {
         if (pastIdeasCount > 1) {
             textPart = textPart + " You've come up with " + pastIdeasCount + " ideas in the last two weeks.";
         }
-        String htmlPart = "<h3>Visit <a href='https://ideaengine-373522.nw.r.appspot.com/ideas'>Idea Engine</a> to review your recent ideas.</h3>";
+        String htmlPart = "<h3>Visit <a href='https://ideaengine-373522.lm.r.appspot.com/ideas'>Idea Engine</a> to review your recent ideas.</h3>";
         String customId = "IdeaEngineWeekly";
         try {
             this.emailer.SendPrompt(email, name, subject, textPart, htmlPart, customId);
@@ -255,16 +256,16 @@ public class IdeaService {
         this.serviceUserRepository.save(user);
     }
 
-    void initialiseTestData() {
-        this.getDayIdeas().clear();
-        for (int i = 1; i < 5; i++) {
-            this.saveIdea("yesterday " + i);
-        }
-        this.checkDate(LocalDate.now().plusDays(1));
-        
-        for (int i = 1; i < 5; i++) {
-            this.saveIdea("today " + i);
-        }
-    }
+//    void initialiseTestData() {
+//        this.getDayIdeas().clear();
+//        for (int i = 1; i < 5; i++) {
+//            this.saveIdea("yesterday " + i, LocalDate.now());
+//        }
+//        this.checkDate(LocalDate.now().plusDays(1));
+//        
+//        for (int i = 1; i < 5; i++) {
+//            this.saveIdea("today " + i, LocalDate.now());
+//        }
+//    }
     
 }
