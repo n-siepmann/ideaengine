@@ -169,7 +169,6 @@ public class IdeaServiceTest {
 //        given(principal.getAttribute("name")).willReturn("User Name");
 //        given(principal.getAttribute("email")).willReturn("email@gmail.com");
 //        ServiceUser user = this.underTest.getUserFromDB(principal);
-//        
-//        this.underTest.runEmailer();
+////        assertEquals("200", this.underTest.runEmailer());
 //    }
 }

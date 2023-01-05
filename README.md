@@ -7,4 +7,4 @@ The service also offers optional daily reminder emails to use the service, and w
 I have written the card descriptions myself using a synthesis of the guide included in The Fountain Tarot deck and the descriptions of the Rider-Waite deck on tarotmysterium.com. While I have attempted to preserve the spirit of each card's traditional meaning, my descriptions are to be used more as a guide for creativity than as an authoritative record of the practice and tradition of Tarot.
 
 ## Stack
-Java, Spring Boot, Thymeleaf, Hibernate, Google Datastore, OAuth2, Spring Security, MailJet
+Java, Spring Boot, Thymeleaf, Hibernate, Google Datastore, Google Cloud Scheduler, OAuth2, Spring Security, MailJet

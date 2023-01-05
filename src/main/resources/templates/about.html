@@ -13,15 +13,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="bootstrap.min.css" rel="stylesheet">
         <link href="styles.css" rel="stylesheet">
-        <meta http-equiv="refresh" content="1; URL=/" />
     </head>
 <header>
-    <div th:replace="fragments.html :: headerLogoOnly"/>
+    <div th:replace="fragments.html :: header"/>
 </header>
-    <div class="textdiv">      
-        <h3>An error has occurred. If you are not redirected, click here to return to <a href="/">Idea Engine</a>.</h3>
-        <div th:text="${error}"></div>
-    </div>
+    <main>   
+    <h1>About Idea Engine</h1>
+    <p th:replace="fragments.html :: about"/>
+    </main>
     <footer th:replace="fragments.html :: footer"/>
     </body>
 </html>

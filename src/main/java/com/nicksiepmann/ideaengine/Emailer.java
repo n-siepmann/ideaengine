@@ -20,7 +20,7 @@ public class Emailer {
     @Value("${mailjet.secret}")
     private String secret;
 
-    public JSONArray SendPrompt(String email, String name, String subject, String textPart, String htmlPart, String customId) throws MailjetException, MailjetSocketTimeoutException {
+    public MailjetResponse SendPrompt(String email, String name, String subject, String textPart, String htmlPart, String customId) throws MailjetException, MailjetSocketTimeoutException {
         MailjetClient client;
         MailjetRequest request;
         MailjetResponse response;
@@ -41,6 +41,6 @@ public class Emailer {
                                 .put(Emailv31.Message.HTMLPART, htmlPart)
                                 .put(Emailv31.Message.CUSTOMID, customId)));
         response = client.post(request);
-        return response.getData();
+        return response;
     }
 }

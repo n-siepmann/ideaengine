@@ -8,13 +8,20 @@ import com.nicksiepmann.ideaengine.domain.Settings;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -71,6 +78,11 @@ public class IdeaController {
         return "ideas";
     }
 
+    @GetMapping("/about")
+    public String about(Model model) {
+        return "about";
+    }
+
     @GetMapping("/stats")
     public String getStats(Model model) {
         model.addAttribute("stats", this.service.getStats());
@@ -85,8 +97,14 @@ public class IdeaController {
     }
 
     @GetMapping("/run")
-    public void run() {
-        this.service.runEmailer();
+    public ResponseEntity<String> run(@RequestHeader("guid") String guid) {
+        try {
+            this.service.runEmailer(guid);
+        } catch (IdeaException ex) {
+            Logger.getLogger(IdeaController.class.getName()).log(Level.SEVERE, null, ex);
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.accepted().build();
     }
 
     @PostMapping("/today")
@@ -117,13 +135,17 @@ public class IdeaController {
     }
 
     @PostMapping("/deleteaccount")
-    public String deleteAccount(Model model, @AuthenticationPrincipal OAuth2User principal) {
+    public String deleteAccount(HttpServletRequest request, Model model, @AuthenticationPrincipal OAuth2User principal) {
         try {
             this.service.deleteUser(principal);
         } catch (IdeaException ex) {
             Logger.getLogger(IdeaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "redirect:/goodbye";
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/deleteidea")

@@ -18,14 +18,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <div th:replace="fragments.html :: headerLogoOnly"/>
 </header>
 <main>
-
+    <div class="two-column-text">
         <h1 class="card-header">Log In</h1>
         <p>
         <form method="post" th:action="@{/oauth2/authorization/google}">
             <button type="submit" class="btn btn-primary">Login with Google</button>
         </form>
-        </p>
-
+        </p></div>
+    <div class="two-column-text">
+        <h2>About Idea Engine</h2>
+        <div th:replace="fragments.html :: about"/>
+    </div>
 </main>
 <footer th:replace="fragments.html :: footer"/>
 </body>

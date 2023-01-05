@@ -28,9 +28,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                             <button class="btn btn-primary" type="submit">Update Settings</button>
                                         </form>
                                         <p class="text-success" th:if="${updated}">Settings updated!</p>
-                                        <hr><form action="#" th:action="@{/deleteaccount}" th:method="delete"> 
-                                                <button class="btn btn-danger" type="submit">Delete Account</button>
-                                            </form>
+                                        <hr>
+                                            <a href="#popup"><span class="text-danger">Delete Account</span></a>
                                             <hr>
 
                                                 <form th:action="@{/logout}" method="post">
@@ -38,6 +37,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                                 </form>
 
                                                 </main>
+
+                                                <div id="popup" class="overlay">
+                                                    <div class="popup">
+                                                        <h3>Are you sure you want to delete your account?</h3>
+                                                        <form action="#" th:action="@{/deleteaccount}" th:method="post"> 
+                                                            <button type="submit" class="btn btn-danger" title="Yes - delete my account">Yes - delete my account</button>
+                                                        </form>
+                                                        <a class="close" href="#">&times;</a>
+                                                    </div>
+                                                </div>
+                                                </div>
                                                 <footer th:replace="fragments.html :: footer"/>
+                                                <script>
+                                                    function openForm(name) {
+                                                        document.getElementById(name).style.display = "block";
+                                                    }
+
+                                                    function closeForm(name) {
+                                                        document.getElementById(name).style.display = "none";
+                                                    }
+                                                </script>
                                                 </body>
                                                 </html>
