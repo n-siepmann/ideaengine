@@ -8,14 +8,11 @@ import com.nicksiepmann.ideaengine.domain.Settings;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,14 +35,6 @@ public class IdeaController {
         this.service = sessionIdeaService;
     }
 
-//    @GetMapping("/today")
-//    public String tempLogin(Model model) {
-//        this.service.getUserFromDB("Nick Siepmann", "**REMOVED**@gmail.com");
-////        this.service.initialiseTestData();
-//        model.addAttribute("cards", this.service.getTodayCards());
-//        model.addAttribute("todayideas", this.service.getDayIdeas());
-//        return "today";
-//    }
     @GetMapping("/today")
     public String getToday(Model model, @AuthenticationPrincipal OAuth2User principal) {
         this.service.getUserFromDB(principal);
@@ -66,8 +55,8 @@ public class IdeaController {
     }
 
     @GetMapping("/")
-    public String getDefaultPage(Model model, @AuthenticationPrincipal OAuth2User principal) {
-        return "redirect:/today";
+    public String getDefaultPage(Model model, @AuthenticationPrincipal OAuth2User principal){
+        return getToday(model, principal);
     }
 
     @GetMapping("/ideas")

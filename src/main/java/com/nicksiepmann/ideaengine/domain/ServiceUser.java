@@ -22,7 +22,8 @@ public class ServiceUser {
     Long id;
     private String name;
     private final String email;
-    private LocalDate updated;
+    private LocalDate cardsUpdated;
+    private LocalDate ideasLastSubmitted;
     private ArrayList<Idea> pastIdeas;
     private ArrayList<Idea> dayIdeas;
     private ArrayList<Idea> keepers;
@@ -40,7 +41,7 @@ public class ServiceUser {
         this.keepers = new ArrayList<>();
         this.completed = new ArrayList<>();
         this.todayCards = new int[2];
-        this.updated = LocalDate.now();
+        this.cardsUpdated = LocalDate.now();
         this.stats = new Stats();
     }
 

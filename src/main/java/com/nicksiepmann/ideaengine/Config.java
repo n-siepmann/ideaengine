@@ -37,9 +37,9 @@ public class Config {
     
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/oauth2/**", "/error", "/run", "/welcome", "/about", "/goodbye", "/static/**", "/*.css", "/logo_white.svg", "/favicon*.png", "/android*.png").permitAll()
+        http.authorizeRequests().antMatchers("/oauth2/**", "/error", "/run", "/welcome", "/about", "/goodbye", "/static/**", "*.css", "/logo_white.svg", "/favicon*.png", "/android*.png").permitAll()
                 .anyRequest().authenticated()
-                .and().oauth2Login().loginPage("/welcome").defaultSuccessUrl("/", true);
+                .and().oauth2Login().loginPage("/welcome").defaultSuccessUrl("/today", true);
         return http.build();
         
     }
