@@ -25,25 +25,26 @@ import org.springframework.web.context.annotation.SessionScope;
  */
 @Configuration
 public class Config {
-    
+
     private static final Gson gson = Converters.registerLocalDate(new GsonBuilder()).create();
-    
+
     @Bean
     @Autowired
     @SessionScope
     public IdeaService sessionIdeaService(ServiceUserRepository serviceUserRepository, Emailer emailer) {
         return new IdeaService(serviceUserRepository, emailer);
     }
-    
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/oauth2/**", "/error", "/run", "/welcome", "/about", "/goodbye", "/static/**", "*.css", "/logo_white.svg", "/favicon*.png", "/android*.png").permitAll()
+        http.authorizeRequests().antMatchers("/oauth2/**", "/oauth/**", "/error", "/run", "/welcome", "/about", "/goodbye", "/static/**", "/*.css", "/logo_white.svg", "/favicon*.png", "/android*.png").permitAll()
                 .anyRequest().authenticated()
-                .and().oauth2Login().loginPage("/welcome").defaultSuccessUrl("/today", true);
+                .and().oauth2Login().loginPage("/welcome").defaultSuccessUrl("/", true)
+                .and().headers().contentSecurityPolicy("upgrade-insecure-requests");
         return http.build();
-        
+
     }
-    
+
     @Bean
     public DatastoreCustomConversions datastoreCustomConversions() {
         return new DatastoreCustomConversions(
@@ -62,7 +63,7 @@ public class Config {
             return gson.toJson(idea);
         }
     };
-    
+
     static final Converter<String, Idea> STRING_IDEA_CONVERTER
             = new Converter<String, Idea>() {
         @Override
@@ -70,7 +71,7 @@ public class Config {
             return gson.fromJson(json, Idea.class);
         }
     };
-    
+
     static final Converter<Stats, String> STATS_STRING_CONVERTER
             = new Converter<Stats, String>() {
         @Override
@@ -78,7 +79,7 @@ public class Config {
             return gson.toJson(stats);
         }
     };
-    
+
     static final Converter<String, Stats> STRING_STATS_CONVERTER
             = new Converter<String, Stats>() {
         @Override
@@ -86,5 +87,5 @@ public class Config {
             return gson.fromJson(json, Stats.class);
         }
     };
-    
+
 }

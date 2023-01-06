@@ -35,7 +35,7 @@ public class IdeaController {
         this.service = sessionIdeaService;
     }
 
-    @GetMapping("/today")
+    @GetMapping("/")
     public String getToday(Model model, @AuthenticationPrincipal OAuth2User principal) {
         this.service.getUserFromDB(principal);
         model.addAttribute("cards", this.service.getTodayCards());
@@ -54,10 +54,10 @@ public class IdeaController {
         return "error";
     }
 
-    @GetMapping("/")
-    public String getDefaultPage(Model model, @AuthenticationPrincipal OAuth2User principal){
-        return getToday(model, principal);
-    }
+//    @GetMapping("/")
+//    public String getDefaultPage() {
+//        return "redirect:/today";
+//    }
 
     @GetMapping("/ideas")
     public String getIdeas(Model model) {
