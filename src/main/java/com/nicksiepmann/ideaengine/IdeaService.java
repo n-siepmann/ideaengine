@@ -77,7 +77,7 @@ public class IdeaService {
         } else {
             ServiceUser newUser = new ServiceUser((principal.getAttribute("name")), principal.getAttribute("email"));
             this.user = newUser;
-            user.setTodayCards(this.newCards());
+            this.user.setTodayCards(this.newCards());
             this.serviceUserRepository.save(newUser);
         }
         return this.user;
@@ -85,7 +85,7 @@ public class IdeaService {
     
     void saveIdea(String text, LocalDate now) {
         this.user.getDayIdeas().add(new Idea(text));
-        user.setIdeasLastSubmitted(now);
+        this.user.setIdeasLastSubmitted(now);
         this.serviceUserRepository.save(this.user);
     }
     
@@ -162,11 +162,8 @@ public class IdeaService {
         } else {
             this.user.getStats().setAverageDailyIdeas(((this.user.getStats().getAverageDailyIdeas() * (double) this.user.getStats().getDaysUsed()) + this.user.getDayIdeas().size()) / (this.user.getStats().getDaysUsed() + 1));
         }
-
-//        if (this.user.getIdeasLastSubmitted().equals(now)) {
-//            this.user.getStats().setDaysUsed(this.user.getStats().getDaysUsed() + 1);
-//        }
-        if (this.user.getIdeasLastSubmitted().isBefore(now.minusDays(1))) {
+        
+        if (this.user.getIdeasLastSubmitted() == null || this.user.getIdeasLastSubmitted().isBefore(now.minusDays(1))) {
             this.user.getStats().setCurrentStreak(1);
         } else {
             this.user.getStats().setCurrentStreak(this.user.getStats().getCurrentStreak() + 1);

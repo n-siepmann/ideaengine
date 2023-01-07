@@ -54,11 +54,6 @@ public class IdeaController {
         return "error";
     }
 
-//    @GetMapping("/")
-//    public String getDefaultPage() {
-//        return "redirect:/today";
-//    }
-
     @GetMapping("/ideas")
     public String getIdeas(Model model) {
         model.addAttribute("pastideas", this.service.getPastIdeas());
@@ -99,7 +94,7 @@ public class IdeaController {
     @PostMapping("/today")
     public String saveIdea(@RequestParam(value = "idea") String idea, Model model) {
         this.service.saveIdea(idea, LocalDate.now());
-        return "redirect:/today";
+        return "redirect:/";
     }
 
     @PostMapping("/settings")

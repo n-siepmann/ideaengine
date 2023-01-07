@@ -122,6 +122,11 @@ public class IdeaServiceTest {
         given(principal.getAttribute("name")).willReturn("User Name");
         given(principal.getAttribute("email")).willReturn("email@gmail.com");
         ServiceUser user = this.underTest.getUserFromDB(principal);
+        this.underTest.checkDate(LocalDate.now());
+        assertEquals(0, this.underTest.getUser().getStats().getCurrentStreak());
+        assertEquals(0, this.underTest.getUser().getStats().getMaxStreak());
+        assertEquals(0, this.underTest.getUser().getStats().getAverageDailyIdeas());
+        assertEquals(0, this.underTest.getUser().getStats().getDaysUsed());
 
         String ideatext = "current idea";
         this.underTest.saveIdea(ideatext, LocalDate.now());
