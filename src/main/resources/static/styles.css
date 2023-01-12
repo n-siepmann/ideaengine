@@ -174,4 +174,8 @@ h4{
     .two-column-text{
         width: 100%;
     }
+    
+    .popup {
+        width: 90%;
+    }
 }
